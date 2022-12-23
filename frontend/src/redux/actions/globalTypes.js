@@ -1,3 +1,10 @@
 export const GLOBALTYPES = {
   THEME: "DARK",
+  AUTH: "AUTH",
+  SOCKET: 'SOCKET',
+  ONLINE: 'ONLINE',
+  OFFLINE: 'OFFLINE',
+  CALL: 'CALL',
+  PEER: 'PEER',
+  ALERT: "ALERT",
 };
