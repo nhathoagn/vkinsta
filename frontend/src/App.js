@@ -1,25 +1,17 @@
 import {useDispatch, useSelector} from "react-redux";
-import {ToastContainer} from "react-toastify";
-import Notify from "./alert/Alert";
+
 import {Route, Routes} from "react-router-dom";
 import ProtectedLayout from "./page/ProtectedLayout";
 import ShareLayout from "./page/ShareLayout";
 import Home from "./page/Home";
 import Login from "./page/Login";
 import Register from "./page/Register";
-import {useEffect} from "react";
-import themeReducer from "./redux/reducers/themeReducer";
-import {GLOBALTYPES} from "./redux/actions/globalTypes";
-
+import {ToastContainer} from "react-toastify";
+import Dashboard from "./page/Layout/dashboard";
 function App() {
-  const dark  = useSelector(state => state.themeReducer)
+  const {dark}  = useSelector(state => state.themeReducer.dark)
     console.log("app",dark)
-    const dispatch = useDispatch()
-    useEffect(()=>{
-        dispatch({type: GLOBALTYPES.THEME, payload: {}})
-    },[])
   return <div className={`${dark ? "dark" : ""} relative `}>
-    <Notify/>
     <ToastContainer
         position='top-right'
         autoClose={2000}
@@ -33,19 +25,19 @@ function App() {
         theme={dark ? "dark" : "light"}
     />
         <Routes>
-            {/*<Route
+            <Route
                 path='/'
                 element={
                     <ProtectedLayout>
                         <ShareLayout />
                     </ProtectedLayout>
-                }>*/}
-               {/* <Route
+                }>
+                <Route
                     // @ts-ignore
                     index
                     path='/'
                     element={<Dashboard />}
-                />*/}
+                />
                {/* <Route path='/messenger' element={<Messenger />} />
                 <Route path='/admin' element={<Admin />} />
                 <Route path='/profile/*' element={<Profile />} />*/}
@@ -57,7 +49,7 @@ function App() {
                     path='/post/information/:id'
                     element={<Information />}
                 />*/}
-           {/* </Route>*/}
+            </Route>
 
             <Route path='/home' element={<Home />} />
             <Route path='/login' element={<Login />} />

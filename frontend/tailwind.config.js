@@ -1,8 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}", "./node_modules/flowbite/**/*.js"],
+  darkMode: "class",
+  mode: "jit",
+  content: ["./src/**/*.{js,jsx,ts,tsx}", "./node_modules/flowbite/**/*.js","./public/**/*.html"],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        space: "url('/images/bg.png')",
+      },
+    },
   },
-  plugins: [require("flowbite/plugin")],
+  variants: {
+    scrollbar: ["dark"],
+  },
+  plugins: [require("flowbite/plugin"),require("@tailwindcss/forms"), require("tailwind-scrollbar")],
 };

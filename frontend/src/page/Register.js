@@ -1,38 +1,33 @@
 import React, {useEffect, useState} from "react";
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import {NavLink} from "react-router-dom";
-
+import {toast} from "react-toastify";
 import {useNavigate} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import Nav from "../common/Nav";
 import {register} from "../redux/actions/authAction";
 
-
-
 const Register = () => {
     const auth = useSelector(state => state.authReducer)
-    console.log("auth",auth)
     const [eye, setEye] = useState(false);
     const [reEye, setReEye] = useState(false);
-    const dispath = useDispatch()
+    const dispatch = useDispatch()
     const navigate = useNavigate()
-    // const {dark, user,} = useAppContext();
-    const dark = true
+    const  dark = useSelector(state => state.themeReducer.dark)
 
     const [loading, setLoading] = useState(false);
     const initialState = {
-        fullname: '', username: '', email: '', password: '', rePassword: '', gender: 'male'
+        fullname: '', username: '', email: '', password: '', cf_password: '', gender: 'male'
     }
     const [userData, setUserData] = useState(initialState);
-    console.log("initialState",initialState)
+    console.log("userData", userData)
     const handleChangeInput = (e) => {
         const  { name, value} = e.target;
         setUserData({...userData,[name]:value})
     };
 
     const handleSubmit = async () => {
-        setLoading(true);
-        dispath(register(userData))
+        dispatch(register(userData))
     };
 
     useEffect(() =>{
@@ -91,8 +86,8 @@ const Register = () => {
                         <form
                             className='mt-[13px] sm:mt-[15px] md:mt-[20px] font-bold '
                             onSubmit={(e) => {
-                                e.preventDefault();
-                                handleSubmit();
+                                e.preventDefault()
+                                handleSubmit()
                             }}>
                             {/* name and email */}
                             <div className='grid grid-cols-2 gap-x-2 md:gap-x-3 '>
@@ -166,7 +161,7 @@ const Register = () => {
                                             type={reEye ? "text" : "password"}
                                             className=' input-register '
                                             placeholder='Password'
-                                            name='rePassword'
+                                            name='cf_password'
                                             onChange={(e) =>
                                                 handleChangeInput(e)
                                             }

@@ -1,9 +1,12 @@
 import {useNavigate} from "react-router-dom";
 import Nav from "../common/Nav";
 import {useSelector} from "react-redux";
+
+
 const Home = () => {
     const navigate = useNavigate();
-    const  dark = useSelector(state => state.themeReducer)
+    const {dark}  = useSelector(state => state.themeReducer.dark)
+    console.log("dark",dark)
     return (
         <div>
             <Nav />

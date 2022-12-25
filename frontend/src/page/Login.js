@@ -21,7 +21,7 @@ const Login = () => {
     const handleChangeInput = (e) => {
         setState({...state, [e.target.name]: e.target.value});
     };
-    if (auth) {
+    if (auth.token) {
         return <Navigate to='/' />;
     }
     const Login = (e) => {
