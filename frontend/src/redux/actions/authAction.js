@@ -3,6 +3,7 @@ import {postDataAPI} from "../../utils/fetchData";
 import {toast} from "react-toastify";
 import {data} from "autoprefixer";
 import valid from "../../utils/valid";
+import {useNavigate} from "react-router-dom";
 
 export const login = (data) => async (dispatch) => {
     try {
@@ -22,15 +23,16 @@ export const login = (data) => async (dispatch) => {
     }
 }
 export const register = (data) =>async (dispatch) => {
+
     const check = valid(data)
     if(check.errLength > 0){
-        console.log("errMsg",check.errMsg)
-        return check.errMsg
+       for (const msg in check.errMsg){
+           toast.error(msg || "Something went wrong!" )
+       }
     }
    try {
-       dispatch({type: GLOBALTYPES.ALERT, payload: {loading: true}})
+     const res = await postDataAPI('register', data)
 
-       const res = await postDataAPI('register', data)
        dispatch({
            type: GLOBALTYPES.AUTH,
            payload: {
@@ -40,9 +42,11 @@ export const register = (data) =>async (dispatch) => {
        })
 
        localStorage.setItem("firstLogin", true)
-       console.log(res.data.msg)
+       toast.success(res.data.msg || "Register success!")
    }catch (e) {
-       console.log(e.response.data.msg)
+        toast.error(e.response.data.msg || "Something went wrong!")
+       /*console.log(e.response.data.msg)*/
+
    }
     
 }

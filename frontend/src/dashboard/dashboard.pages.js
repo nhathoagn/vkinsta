@@ -11,7 +11,7 @@ const Dashboard = () => {
               <div className='col-span-11 md:col-span-3 relative order-1 '>
                   <Left  dark={dark} />
               </div>
-              <div className='col-span-11 md:col-span-5 shrink-0 order-3 md:order-2 '>
+              {/*<div className='col-span-11 md:col-span-5 shrink-0 order-3 md:order-2 '>
                   <Center
 
                       dark={dark}
@@ -30,13 +30,12 @@ const Dashboard = () => {
                   <Right
                       getAllPosts={getAllPosts}
                       navigate={navigate}
-                    /*  setNameAndToken={setNameAndToken}*/
                       user={user}
                       token={token}
                       dark={dark}
                       error={error}
                   />
-              </div>
+              </div>*/}
           </div>
       </div>
   )

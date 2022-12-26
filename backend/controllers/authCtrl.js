@@ -1,7 +1,7 @@
 const Users = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const axios = require('axios')
 const authCtrl = {
   register: async (req, res) => {
     try {
@@ -23,6 +23,7 @@ const authCtrl = {
 
       const passwordHash = await bcrypt.hash(password, 12);
       const avatar = await getRanDomAvatar();
+      console.log("avatar",avatar)
       const newUser = new Users({
         fullname,
         username: newUserName,
@@ -148,7 +149,9 @@ const createRefreshToken = (payload) => {
 };
 const getRanDomAvatar = async () => {
   try {
-    const response = await axios.get("https://randomuser.me/api/");
+    const response = await axios.get('https://randomuser.me/api/',{
+      headers: { "Accept-Encoding": "gzip,deflate,compress" }
+    });
     return response.data.results[0].picture.large;
   } catch (err) {
     console.log(err);

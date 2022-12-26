@@ -1,5 +1,6 @@
 import React from "react";
-import {Dashboard} from "../../../components";
+import Dashboard from "../../../dashboard/dashboard.pages";
+
 const index = () => {
     return <Dashboard />;
 };
