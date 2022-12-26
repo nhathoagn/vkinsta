@@ -74,7 +74,7 @@ const Nav = () => {
                 link: "/messenger",
                 icon: <SiMessenger className='text-[22px] ' />,
                 className: "messenger",
-            }
+            },
         ];
 
             if (user.isAdmin === "true") {
@@ -194,7 +194,7 @@ const Nav = () => {
               {Object.keys(user).length > 0 ? (
                    <>
                        {navMenuLogged()}
-                       <NotifyModal/>
+                        <NotifyModal />
                    </>
               ) : (
                   <>

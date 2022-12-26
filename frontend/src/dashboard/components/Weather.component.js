@@ -5,6 +5,7 @@ import {BiRadioCircle} from "react-icons/bi";
 import {FaSearchLocation} from "react-icons/fa";
 import useDebounce from "../../hook/useDebounce";
 import LoadingWeather from "../../Loading/Loading.Weather";
+import axios from "axios";
 
 
 
@@ -52,6 +53,9 @@ const Left = ({dark, autoFetch}) => {
     const [wError, setWError] = useState(false);
     const [cityHistory, setCityHistory] = useState([]);
     const weatherDebounce = useDebounce(cityName, 500);
+    const country = 'vietnam'
+    const Api_Key = "8d2de98e089f1c28e1a22fc19a24ef04"
+    const temp = parseFloat(weather.main.temp) - 275.13
     useEffect(() => {
         if (weatherDebounce) {
             getWeather();
@@ -61,19 +65,19 @@ const Left = ({dark, autoFetch}) => {
     const getWeather = async () => {
         setWLoading(true);
         try {
-            const {data} = await autoFetch.get(`/api/weather/${cityName}`);
+            const {data} = await axios.get(`http://api.openweathermap.org/data/2.5/weather?q=${cityName},${country}&appid=${Api_Key}`);
             setWError(false);
-            setWeather(data.data);
+            setWeather(data);
             // @ts-ignore
-            if (!cityHistory.includes(data.data.name)) {
+            if (!cityHistory.includes(data.name)) {
                 if (cityHistory.length === 5) {
                     setCityHistory(
                         // @ts-ignore
-                        [...cityHistory, data.data.name].splice(1, 4)
+                        [...cityHistory, data.name].splice(1, 4)
                     );
                 } else {
                     // @ts-ignore
-                    setCityHistory([...cityHistory, data.data.name]);
+                    setCityHistory([...cityHistory, data.name]);
                 }
             }
         } catch (error) {
@@ -115,7 +119,7 @@ const Left = ({dark, autoFetch}) => {
                         />
                     </div>
                     <div className='md-4 md:mb-6 text-[40px] sm:text-50px md:text-[60px] font-bold w-full flex justify-center leading-[48px] '>
-                        {weather.main.temp}
+                        {temp.toFixed(2)}
                         <BiRadioCircle className='text-2xl ' />C
                     </div>
                     <div className='weather-information'>
@@ -123,7 +127,7 @@ const Left = ({dark, autoFetch}) => {
                             Feel like
                         </div>
                         <p className='flex text-[14px] sm:text-base '>
-                            {weather.main.feels_like}
+                            {(weather.main.feels_like - 273.15).toFixed(2)}
                             <BiRadioCircle className='text-[10px] mt-1 ' />C
                         </p>
                     </div>
@@ -183,23 +187,6 @@ const Left = ({dark, autoFetch}) => {
                     />
                 )}
             </div>
-            {/* History search */}
-            {cityHistory.length > 0 && (
-                <div className='flex mt-3 gap-x-2 items-center flex-wrap '>
-                    <div className='mt-1 '>History :</div>{" "}
-                    {cityHistory.map((v) => (
-                        <span
-                            key={v}
-                            className='px-3 py-0.5 dark:bg-[#393A3B] rounded-full cursor-pointer mt-1  '
-                            onClick={() => {
-                                setCityName(v);
-                            }}>
-                            {v}
-                        </span>
-                    ))}
-                </div>
-            )}
-
             <div className='w-full'>{left()}</div>
         </div>
     );
