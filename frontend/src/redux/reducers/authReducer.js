@@ -2,7 +2,9 @@ import {GLOBALTYPES} from "../actions/globalTypes";
 
 const initialState = {
     token: "",
-    user: {}
+    user: {
+        isAdmin: false
+    }
 }
 const authReducer = (state = initialState,action) =>{
     switch (action.type) {

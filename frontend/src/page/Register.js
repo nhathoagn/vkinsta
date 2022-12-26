@@ -20,7 +20,6 @@ const Register = () => {
         fullname: '', username: '', email: '', password: '', cf_password: '', gender: 'male'
     }
     const [userData, setUserData] = useState(initialState);
-    console.log("userData", userData)
     const handleChangeInput = (e) => {
         const  { name, value} = e.target;
         setUserData({...userData,[name]:value})

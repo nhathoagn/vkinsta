@@ -19,11 +19,13 @@ import NotifyModal from "./NotifyModal";
 
 
 const Nav = () => {
-    const {dark} = useSelector(state => state.themeReducer.dark)
+    const dark = useSelector(state => state.themeReducer.dark)
+    console.log("dark",dark)
     const auth = useSelector(state => state.authReducer)
 
     console.log("auth",auth)
     const {user} = auth
+    console.log("user",user.isAdmin)
     const  dispatch = useDispatch()
     const searchRef = useRef();
     const clearListResult = () => {
@@ -75,16 +77,17 @@ const Nav = () => {
             }
         ];
 
-        if (user.isAdmin === "true") {
-            list.push({
-                text: "#607D8B",
-                hover: "#455A64",
-                bgAfter: "#607D8B",
-                link: "/admin",
-                icon: <MdAdminPanelSettings className='text-[28px] ' />,
-                className: "admin",
-            });
-        }
+            if (user.isAdmin === "true") {
+                list.push({
+                    text: "#607D8B",
+                    hover: "#455A64",
+                    bgAfter: "#607D8B",
+                    link: "/admin",
+                    icon: <MdAdminPanelSettings className='text-[28px] ' />,
+                    className: "admin",
+                });
+            }
+
         return list;
     }, [user.isAdmin]);
     const navMenuLogged = () => {
@@ -127,7 +130,6 @@ const Nav = () => {
         }
         setLoading(false);
     };
-    console.log("data",Object.keys(user).length)
   return(
       <div className='flex fixed top-0 w-screen bg-white px-1 sm:px-2 md:px-4 z-[100] items-center dark:bg-[#242526] transition-50 dark:text-[#DDDFE3] border-b-[#8a8a8a] py-1 '>
           <div

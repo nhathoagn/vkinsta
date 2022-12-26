@@ -10,7 +10,6 @@ import {ToastContainer} from "react-toastify";
 import Dashboard from "./page/Layout/dashboard";
 function App() {
   const {dark}  = useSelector(state => state.themeReducer.dark)
-    console.log("app",dark)
   return <div className={`${dark ? "dark" : ""} relative `}>
     <ToastContainer
         position='top-right'
