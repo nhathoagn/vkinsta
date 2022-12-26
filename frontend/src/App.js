@@ -16,7 +16,7 @@ function App() {
     console.log("app",dark)
     const dispatch = useDispatch()
     useEffect(()=>{
-        dispatch({type: GLOBALTYPES.THEME, payload: {}})
+        dispatch({type: GLOBALTYPES.THEME, payload: "dark"})
     },[])
   return <div className={`${dark ? "dark" : ""} relative `}>
     <Notify/>
