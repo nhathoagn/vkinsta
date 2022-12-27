@@ -5,6 +5,7 @@ import {toast} from "react-toastify";
 import {useSelector} from "react-redux";
 
 const FormCreatePost = ({user, setOpenModal, setAttachment, text}) => {
+    console.log('user-formcreatepost',user)
     const {dark} = useSelector(state => state.themeReducer)
     return (
         <div
@@ -13,7 +14,7 @@ const FormCreatePost = ({user, setOpenModal, setAttachment, text}) => {
             } `}>
             <div className='flex items-center gap-x-2 '>
                 <img
-                    src={user.image?.url}
+                    src={user.avatar}
                     alt='userImage'
                     className='object-cover w-10 h-10 rounded-full shrink-0 '
                 />
@@ -23,7 +24,7 @@ const FormCreatePost = ({user, setOpenModal, setAttachment, text}) => {
                         setOpenModal(true);
                     }}>
                     <div className='mr-2 overflow-hidden  text-overflow-ellipsis'>
-                        {text || `What's on your mind, ${user.name}?`}
+                        {text || `What's on your mind, ${user.username}?`}
                     </div>
                 </div>
             </div>
@@ -33,9 +34,8 @@ const FormCreatePost = ({user, setOpenModal, setAttachment, text}) => {
                 <button
                     className='flex items-center justify-center w-full gap-x-2 dark:text-[#b0b3b8] text-[#65676b] hover:bg-[#F2F2F2] font-semibold py-2 transition-20 dark:hover:bg-[#4E4F50] rounded-lg '
                     onClick={() => {
-                        toast("This function is updating...");
-                        // setOpenModal(true);
-                        // setAttachment("video");
+                         setOpenModal(true);
+                         setAttachment("video");
                     }}>
                     <FaVideo className='text-[#f3425f] text-[22px]' /> Video
                 </button>

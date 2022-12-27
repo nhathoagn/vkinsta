@@ -1,20 +1,30 @@
 import React, {useEffect, useState} from "react";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import LoadingForm from "../../Loading/Loading.Form";
 import FormCreatePost from "../../common/FormCreatePost";
 import Modal from "../../common/Modal";
+import {toast} from "react-toastify";
+import {GLOBALTYPES} from "../../redux/actions/globalTypes";
+import LoadingPost from "../../Loading/Loading.Post";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Post from "../../common/Post";
 
 
 let scroll = 0;
 
 const Home = () => {
     const user = useSelector(state => state.authReducer)
-    const { homePosts } = useSelector((state) => state);
-    const [loading, setLoading] = useState(false);
-    const [attachment, setAttachment] = useState("");
-    const [text, setText] = useState("");
+    const dark = useSelector(state => state.themeReducer)
+    const  homePosts  = useSelector((state) => state.homeReducer);
+    console.log("homePosts",homePosts)
     const [openModal, setOpenModal] = useState(false);
-    const [loadingCreateNewPost, setLoadingCreateNewPost] = useState(false);
+    window.addEventListener("scroll", () => {
+        if (window.location.pathname === "/") {
+            scroll = window.pageYOffset;
+            return scroll;
+        }
+    });
+
 
     const form = () =>{
     if (loading) return <LoadingForm/>
@@ -23,35 +33,63 @@ const Home = () => {
             setAttachment={setAttachment}
             setOpenModal={setOpenModal}
             text={text}
-            user={user}
+            user={user.user}
         />
     )
    }
-   const createNewPost = async (formData) =>{
-       setLoadingCreateNewPost(true);
-       /*if (!text) {
-           toast.error("You must type something...");
-           return;
-       }*/
+    const content = () =>{
+        if (loading){
+            return(
+                <div>
+                    <LoadingPost/>
+                </div>
+            )
+        }
+        if (homePosts.loading){
+            return (
+                <div
+                    className={`bg-white ${
+                        !dark && "shadow-post"
+                    } dark:bg-[#242526] rounded-lg w-full text-center text-xl font-bold py-10 `}
+                >
+                    <div>No post found... Try again!</div>
+                </div>
+            );
+        }
+        if (homePosts.length === 0){
+            return (
+                <div className="w-full text-center text-xl font-semibold pt-[20vh] flex-col ">
+                    <div>
+                        You don't post anything and don't follow anyone.
+                        <br />
+                        Let's do something! :3
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <InfiniteScroll
+                dataLength={homePosts.posts.length}
+                next={homePosts}
+                hasMore={true}
+                loader={<LoadingPost />}
+            >
+                {homePosts.posts.map((post) => (
+                    <Post
+                        key={post._id}
+                        currentPost={post}
+                        user_img={user.image.url}
+                        userId={user._id}
+                        className={!dark ? "shadow-post" : ""}
+                        userRole={user.role}
+                    />
+                ))}
+            </InfiniteScroll>
+        );
     }
-    const handleChangeImages = e => {
-        const files = [...e.target.files]
-        let err = ""
-        let newImages = []
+    /*const createNewPost = () => {
 
-        files.forEach(file => {
-            if(!file) return err = "File does not exist."
-
-            if(file.size > 1024 * 1024 * 5){
-                return err = "The image/video largest is 5mb."
-            }
-
-            return newImages.push(file)
-        })
-
-        if(err) dispatch({ type: GLOBALTYPES.ALERT, payload: {error: err} })
-        setImages([...images, ...newImages])
-    }
+    }*/
     return (
        <div className=''>
            {form()}
@@ -62,9 +100,11 @@ const Home = () => {
                 setText={setText}
                 attachment={attachment}
                 setAttachment={setAttachment}
-                createNewPost={create}
+                createNewPost={createNewPost}
                 />
            )}
+           {loadingCreateNewPost && <LoadingPost className="mb-4" />}
+           {content()}
        </div>
     );
 };
